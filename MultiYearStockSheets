@@ -1,0 +1,87 @@
+Sub MultiYearStockSheets()
+
+Dim ws As Worksheet
+For Each ws In Worksheets
+
+Dim ticker As String
+Dim volume As Double
+volume = 0
+Dim ychange As Double
+ychange = 0
+Dim percentchange As Double
+percentchange = 0
+Dim yopen As Double
+yopen = 0
+Dim yclose As Double
+yclose = 0
+Dim Lastrow As Long
+Lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+Dim tablerow As Long
+tablerow = 2
+Dim i As Long
+
+'Add column headers
+ws.Cells(1, 9).Value = "Ticker"
+ws.Cells(1, 10).Value = "Yearly Change"
+ws.Cells(1, 11).Value = "Percent Change"
+ws.Cells(1, 12).Value = "Total Stock Volume"
+
+'Capture year open for first ticker of current worksheet
+yopen = ws.Cells(2, 3).Value
+
+'Loop to add data to table
+For i = 2 To Lastrow
+
+If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+
+'Find Values
+ticker = ws.Cells(i, 1).Value
+yclose = ws.Cells(i, 6).Value
+
+'Calc ychange
+ychange = yclose - yopen
+
+'Prevent divisible by zero error
+If yopen > 0 Then
+'Calc percentchange
+percentchange = (ychange / yopen) * 100
+End If
+
+'Calc volume
+volume = volume + ws.Cells(i, 7).Value
+
+'Insert Values
+ws.Cells(tablerow, 9).Value = ticker
+ws.Cells(tablerow, 10).Value = ychange
+ws.Cells(tablerow, 11).Value = percentchange
+ws.Cells(tablerow, 12).Value = volume
+
+'Change ychange cell color
+If ws.Cells(tablerow, 10) <= 0 Then
+ws.Cells(tablerow, 10).Interior.ColorIndex = 3
+ElseIf ws.Cells(tablerow, 10) > 0 Then
+ws.Cells(tablerow, 10).Interior.ColorIndex = 4
+End If
+
+'Go to next row in table and clear values from previous ticker calcs
+tablerow = tablerow + 1
+yclose = 0
+yopen = 0
+ychange = 0
+percentchange = 0
+volume = 0
+
+'Capture the next ticker's yopen
+yopen = ws.Cells(i + 1, 3).Value
+
+'Else increase ticker volume
+Else
+volume = volume + ws.Cells(i, 7).Value
+End If
+
+Next i
+'Autofit column widths
+ws.Columns("A:L").AutoFit
+Next ws
+
+End Sub
