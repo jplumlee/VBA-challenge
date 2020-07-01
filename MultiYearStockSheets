@@ -53,7 +53,8 @@ volume = volume + ws.Cells(i, 7).Value
 'Insert Values
 ws.Cells(tablerow, 9).Value = ticker
 ws.Cells(tablerow, 10).Value = ychange
-ws.Cells(tablerow, 11).Value = percentchange
+'Covert number to string and format as percent - https://docs.microsoft.com/en-us/office/vba/language/concepts/getting-started/type-conversion-functions
+ws.Cells(tablerow, 11).Value = CStr(percentchange) & "%"
 ws.Cells(tablerow, 12).Value = volume
 
 'Change ychange cell color
@@ -80,7 +81,7 @@ volume = volume + ws.Cells(i, 7).Value
 End If
 
 Next i
-'Autofit column widths
+'Make columns autofit to contents
 ws.Columns("A:L").AutoFit
 Next ws
 
