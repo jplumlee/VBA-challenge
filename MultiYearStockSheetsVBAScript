@@ -86,6 +86,7 @@ ElseIf ws.Cells(tablerow, 10) > 0 Then
 ws.Cells(tablerow, 10).Interior.ColorIndex = 4
 End If
 
+'Concept for finding min/max - https://stackoverflow.com/questions/45422688/vba-for-loop-to-find-maximum-value-in-a-column
 'Calc gincrease by looping through percentchange for the max
 If percentchange > gincrease Then
 gincrease = percentchange
