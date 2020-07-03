@@ -98,7 +98,7 @@ gdecrease = percentchange
 gdecreaseticker = ticker
 End If
 
-'Calc gdecrease by looping through volume for the max
+'Calc gtotalvolume by looping through volume for the max
 If volume > gtotalvolume Then
 gtotalvolume = volume
 gtotalvolumeticker = ticker
